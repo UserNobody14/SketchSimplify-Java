@@ -45,46 +45,25 @@ public class AppTest
 {
     public static void main( String[] args )
     {
-        //String root = "file:///home/benjamin/CodeProjects/Java/my-app/resources/";
-        File root = new File(System.getProperty("user.dir")+File.separator+"resources/"); //+File.separator+"input1.bmp");
-        NumFileSplitClean mytest = new NumFileSplitClean(root.toString() + "/input%d.bmp", 1, 4);
-        System.out.println(mytest.locations()[0].toString());
-        utilPrintArrays(mytest.stringLocations());
-        try {
-            URI[] u = mytest.locations();
-            File newfil = new File(NumFileSplitClean.schemeClean(u[1].toString() + ""));
-            File newfil2 = new File(System.getProperty("user.dir")+File.separator+"imgs"+File.separator+"input1.bmp");
-            File newf = new File("imgs/input.bmp");
-            utilPrintArrays(u[1].toString(), new File(u[1].toString()).toString(), newfil.toString(), newf.toString(), newfil2.toString());
-            BufferedImage exampleI = ImageIO.read(newfil2);
-//
-//            BufferedImage exampleI2 = ImageIO.read(newfil2);
-//            BufferedImage exampleIalso = ImageIO.read(u[1].toURL());
-            System.out.println(exampleI.getHeight());
-            System.out.println(exampleI.getWidth());
-        }
-        catch (IOException e) {
-            System.out.println("IO screwup");
-            e.printStackTrace();
-        }
+        File root = new File(System.getProperty("user.dir")+File.separator+"resources/");
 
         try {
-            //String root = "file:///home/benjamin/CodeProjects/Java/my-app/resources/";
-            File rootf = root;
-
             DataIterConfig d = new DataIterConfig(root.toString() + "/frames4/", 6, 12)
-                .typeImg("png")
-                .channelsImg(3)
-                .ioNames("input", "frame")
+                    .typeImg("png")
+                    .channelsImg(3)
+                    .ioNames("input", "frame")
+                    .sizeImg(512, 512)
                     .autoDims();
             DataSetIterator drel = d.getData();
             //MultiLayerNetwork model = NnConfig.switchableNNLoad(0, d.getDims());
             int controller = 6;
 
+            //DataSet next = drel.next();
+            //utilPrintArrays(next.getLabels(), next.getFeatures());
 
             //doTests();
-            System.out.println(rootf.toString());
-            MultiLayerNetwork model = NnConfig.loadModelIfExists(d, rootf, controller, false);
+            //System.out.println(rootf.toString());
+            MultiLayerNetwork model = NnConfig.loadModelIfExists(d, root, controller, false);
             //check for CuDNN
             /*
             LayerHelper h = model.getLayer(2).getHelper();    //Index 0: assume layer 0 is a ConvolutionLayer in this example
@@ -95,7 +74,7 @@ public class AppTest
             checkOutputs(model, drel, root.toString());
             System.out.println("DONEDONEDONE SORTA");
             //test model saving
-            model.save(NnConfig.switchableNNLoc(controller, rootf));
+            model.save(NnConfig.switchableNNLoc(controller, root));
             //AppTest.doTests();
             //testDataSetCreator(root, infile);
 
