@@ -68,7 +68,8 @@ public class NnConfig {
     //TODO perhaps have a List of Pairs, and iterate over them to get the right one?
 
     public static File switchableNNLoc(int controller, File f) {
-        String root = NumFileSplitClean.schemeClean(f.toString()) + "/";
+        String root = NumFileSplitClean.schemeClean(f.toString());// + "/";
+        System.out.println("Rooty: " + root);
         String v;
         switch (controller) {
             case 0:
@@ -96,6 +97,7 @@ public class NnConfig {
             default:
                 v = root + "BasicNeuralNet_nnConfig.zip";
         }
+        System.out.println("Neural: " + v);
         return new File(v);
     }
     public static MultiLayerNetwork loadModelIfExists(DataIterConfig d, File root, int controller, boolean b) throws IOException {
